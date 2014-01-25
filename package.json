@@ -1,0 +1,24 @@
+{
+  "name": "monitor-haproxy",
+  "version": "0.0.0",
+  "description": "monitor-haproxy ===============",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/public-transport-hungary/monitor-haproxy.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/public-transport-hungary/monitor-haproxy/issues"
+  },
+  "dependencies": {
+    "godot-haproxy": "~0.1.1",
+    "godot": "~0.7.5",
+    "debug": "~0.7.4",
+    "commander": "~2.1.0"
+  }
+}

@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+var HAProxyProducer = require( "godot-haproxy" );
+var godot = require( "godot" );
+var program = require( "commander" );
+var debug = require( "debug" )( "pt-hungary:monitor:haproxy" );
+var url = require( "url" );
+var os = require( "os" );
+
+program
+  .version( require( "../package.json" ).version )
+  .option( "-F, --pid-file [pidfile]", "location of haproxy pid file", "" )
+  .option( "-g, --godot [url of godot]", "Godot server's host, default is udp://localhost:1337", "udp://localhost:1337" )
+  .parse( process.argv );
+
+var godotUrl = url.parse( program.godot );
+var hostName = os.hostname();
+var protocol = ( godotUrl.protocol||"udp" ).replace( /:$/, "" );
+
+var client = godot.createClient({
+  type: protocol,
+  producers: [
+    new HAProxyProducer({
+        host: hostName,
+        ttl: 1000,
+        pidFile: program.pidFile
+      })
+  ]
+});
+
+debug( "connecting to %s on port %d using %s protocol",
+  godotUrl.hostname,
+  godotUrl.port,
+  protocol );
+
+client.connect( godotUrl.port, godotUrl.hostname, function(){
+  debug( "connected to godot server" );
+});
